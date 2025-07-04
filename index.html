@@ -1,254 +1,241 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa de Satisfação</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #2020b1;
-            background-image: url('https://i.imgur.com/xyz1234.jpg'); /* Substitua o link com o link da sua imagem */
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-        .survey-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 600px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 24px;
-        }
-        .question {
-            margin-bottom: 20px;
-        }
-        .question p {
-            font-size: 18px;
-            color: #333;
-        }
-        .stars {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-        .star {
-            font-size: 60px;
-            color: black;
-            transition: color 0.3s;
-            margin-right: 5px;
-        }
-        .star.selected {
-            color: gold;
-        }
-        .star:hover,
-        .star.selected:hover {
-            color: gold;
-        }
-        .options {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .options label {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #555;
-            flex: 1 1 45%;
-            margin: 5px 0;
-        }
-        .submit-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #218838;
-        }
-        .result {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-        #placa {
-            width: 100%; /* Define a largura como 100% do contêiner */
-            max-width: 300px; /* Define um tamanho máximo para o campo */
-            padding: 10px; /* Adiciona um pouco de preenchimento */
-            font-size: 18px; /* Aumenta o tamanho da fonte para melhor visibilidade */
-            margin: 0 auto; /* Centraliza o campo horizontalmente */
-            display: block; /* Garante que o campo seja exibido como bloco, facilitando o alinhamento */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pesquisa de Satisfação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2020b1;
+      background-image: url('https://i.imgur.com/xyz1234.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .survey-container {
+      background-color: #ffffff;
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+    }
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 36px; /* Aumente aqui */
+    font-weight: bold; /* Deixa em negrito, opcional */
+}
+
+    .question {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .question p {
+      font-size: 20px;
+      color: #28355E;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+
+    .stars {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .star {
+      width: 65px;
+      height: 65px;
+      margin-right: 5px;
+      transition: transform 0.2s;
+    }
+
+    .star:hover {
+      transform: scale(1.7);
+    }
+
+    .options {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      margin-left: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #555;
+      flex: 1 1 45%;
+      margin: 5px 0;
+    }
+
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #placa {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      font-size: 18px;
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
 </head>
 <body>
+  <div class="survey-container">
+    <h1>Pesquisa de Satisfação</h1>
+    <form id="survey-form">
+      <!-- Pergunta PLACA -->
+      <div class="question">
+        <p style="text-align: center;">PLACA</p>
+        <input type="text" id="placa" name="placa" maxlength="8" placeholder="XXX-XXXX" required>
+      </div>
 
-    <div class="survey-container">
-        <h1>Pesquisa de Satisfação</h1>
-        <form id="survey-form">
-            <!-- Pergunta PLACA -->
-            <div class="question">
-                <p style="text-align: center;">PLACA</p>
-                <input type="text" id="placa" name="placa" maxlength="8" placeholder="XXX-XXXX" required>
-            </div>
-
-            <!-- Pergunta 1 com estrelas -->
-            <div class="question">
-                <p>Como você avalia a Brasfrotas?</p>
-                <div class="stars" id="attend-stars">
-                    <span class="star" data-value="1">☆</span>
-                    <span class="star" data-value="2">☆</span>
-                    <span class="star" data-value="3">☆</span>
-                    <span class="star" data-value="4">☆</span>
-                    <span class="star" data-value="5">☆</span>
-                </div>
-                <input type="hidden" name="attend" id="attend-rating" value="">
-            </div>
-
-            <!-- Pergunta 2 com estrelas -->
-            <div class="question">
-                <p>Como você avalia a Oficina?</p>
-                <div class="stars" id="product-quality-stars">
-                    <span class="star" data-value="1">☆</span>
-                    <span class="star" data-value="2">☆</span>
-                    <span class="star" data-value="3">☆</span>
-                    <span class="star" data-value="4">☆</span>
-                    <span class="star" data-value="5">☆</span>
-                </div>
-                <input type="hidden" name="product_quality" id="product-rating" value="">
-            </div>
-
-            <!-- Pergunta 3 -->
-            <div class="question">
-                <p>Você recomendaria nossa empresa?</p>
-                <div class="options">
-                    <label><input type="radio" name="recommend" value="Sim"> Sim</label>
-                    <label><input type="radio" name="recommend" value="Não"> Não</label>
-                </div>
-            </div>
-
-            <!-- Pergunta 4 (comentário aberto) -->
-            <div class="question">
-                <p>Comentários adicionais:</p>
-                <textarea name="comments" rows="4" style="width: 100%;"></textarea>
-            </div>
-
-            <div class="error-message" id="error-message" style="display: none;">Precisa preencher tudo</div>
-
-            <button type="button" class="submit-btn" id="submit-btn" onclick="submitSurvey()">Enviar</button>
-        </form>
-
-        <div class="result" id="result" style="display: none;">
-            <h2>Obrigado por sua resposta!</h2>
-            <p>Agradecemos por nos ajudar a melhorar.</p>
+      <!-- Pergunta 1 -->
+      <div class="question">
+        <p>Como você avalia a Brasfrotas?</p>
+        <div class="stars" id="attend-stars">
+          <img class="star" data-value="1" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="2" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="3" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="4" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="5" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
         </div>
+        <input type="hidden" name="attend" id="attend-rating" value="">
+      </div>
+
+      <!-- Pergunta 2 -->
+      <div class="question">
+        <p>Como você avalia a Oficina?</p>
+        <div class="stars" id="product-quality-stars">
+          <img class="star" data-value="1" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="2" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="3" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="4" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+          <img class="star" data-value="5" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
+        </div>
+        <input type="hidden" name="product_quality" id="product-rating" value="">
+      </div>
+
+      <!-- Pergunta 3 -->
+      <div class="question">
+        <p>Você recomendaria nossa empresa?</p>
+        <div class="options">
+          <label><input type="radio" name="recommend" value="Sim"> Sim</label>
+          <label><input type="radio" name="recommend" value="Não"> Não</label>
+        </div>
+      </div>
+
+      <!-- Pergunta 4 -->
+      <div class="question">
+        <p>Comentários adicionais:</p>
+        <textarea name="comments" rows="4" style="width: 100%;"></textarea>
+      </div>
+
+      <div class="error-message" id="error-message" style="display: none;">Precisa preencher tudo</div>
+
+      <button type="button" class="submit-btn" id="submit-btn" onclick="submitSurvey()">Enviar</button>
+    </form>
+
+    <div class="result" id="result" style="display: none;">
+      <h2>Obrigado por sua resposta!</h2>
+      <p>Agradecemos por nos ajudar a melhorar.</p>
     </div>
+  </div>
 
-    <script>
-        // Função para formatação da placa
-        document.getElementById("placa").addEventListener("input", function() {
-            let placa = this.value.replace(/[^A-Za-z0-9]/g, ''); // Remove caracteres não alfanuméricos
-            if (placa.length >= 3 && placa.length <= 7) {
-                this.value = placa.substring(0, 3) + '-' + placa.substring(3, 8); // Adiciona o traço após 3 caracteres
-            } else {
-                this.value = placa.substring(0, 8); // Limita o comprimento da placa a 7 caracteres
-            }
+  <script>
+    const whiteStar = "https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png";
+    const goldStar = "https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_gold.png";
+
+    function setupStars(starElements, inputField) {
+      starElements.forEach((star, index) => {
+        const value = star.getAttribute("data-value");
+
+        star.addEventListener("click", () => {
+          inputField.value = value;
+          updateStarImages(starElements, value);
         });
 
-        // Função para validar o envio
-        function submitSurvey() {
-            const placa = document.getElementById("placa").value;
-            const attendRating = document.getElementById('attend-rating').value;
-            const productRating = document.getElementById('product-rating').value;
-            const errorMessage = document.getElementById("error-message");
-
-            // Verifica se a PLACA está preenchida corretamente
-            if (!placa || placa.length !== 8 || !attendRating || !productRating) {
-                errorMessage.style.display = 'block';
-            } else {
-                errorMessage.style.display = 'none';
-                const form = document.getElementById('survey-form');
-                const resultDiv = document.getElementById('result');
-                console.log('PLACA:', placa);
-                console.log('Atendimento:', attendRating);
-                console.log('Qualidade do produto:', productRating);
-                
-                form.style.display = 'none'; // Esconde o formulário
-                resultDiv.style.display = 'block'; // Exibe a mensagem de obrigado
-            }
-        }
-
-        // Função para as estrelas da Pergunta 1
-        const starsAttend = document.querySelectorAll('#attend-stars .star');
-        const attendRatingInput = document.getElementById('attend-rating');
-
-        starsAttend.forEach(star => {
-            star.addEventListener('click', function() {
-                const value = this.getAttribute('data-value');
-                attendRatingInput.value = value;
-                updateStars(starsAttend, value);
-            });
-
-            star.addEventListener('mouseenter', function() {
-                updateStars(starsAttend, this.getAttribute('data-value'));
-            });
-
-            star.addEventListener('mouseleave', function() {
-                updateStars(starsAttend, attendRatingInput.value);
-            });
+        star.addEventListener("mouseenter", () => {
+          updateStarImages(starElements, value);
         });
 
-        // Função para as estrelas da Pergunta 2
-        const starsProduct = document.querySelectorAll('#product-quality-stars .star');
-        const productRatingInput = document.getElementById('product-rating');
-
-        starsProduct.forEach(star => {
-            star.addEventListener('click', function() {
-                const value = this.getAttribute('data-value');
-                productRatingInput.value = value;
-                updateStars(starsProduct, value);
-            });
-
-            star.addEventListener('mouseenter', function() {
-                updateStars(starsProduct, this.getAttribute('data-value'));
-            });
-
-            star.addEventListener('mouseleave', function() {
-                updateStars(starsProduct, productRatingInput.value);
-            });
+        star.addEventListener("mouseleave", () => {
+          updateStarImages(starElements, inputField.value);
         });
+      });
+    }
 
-        // Função para atualizar as estrelas
-        function updateStars(stars, rating) {
-            stars.forEach(star => {
-                if (star.getAttribute('data-value') <= rating) {
-                    star.classList.add('selected');
-                } else {
-                    star.classList.remove('selected');
-                }
-            });
-        }
-    </script>
+    function updateStarImages(starElements, rating) {
+      starElements.forEach(star => {
+        const value = star.getAttribute("data-value");
+        star.src = value <= rating ? goldStar : whiteStar;
+      });
+    }
 
+    setupStars(document.querySelectorAll('#attend-stars .star'), document.getElementById('attend-rating'));
+    setupStars(document.querySelectorAll('#product-quality-stars .star'), document.getElementById('product-rating'));
+
+    document.getElementById("placa").addEventListener("input", function () {
+      let placa = this.value.replace(/[^A-Za-z0-9]/g, '');
+      if (placa.length >= 3 && placa.length <= 7) {
+        this.value = placa.substring(0, 3) + '-' + placa.substring(3, 8);
+      } else {
+        this.value = placa.substring(0, 8);
+      }
+    });
+
+    function submitSurvey() {
+      const placa = document.getElementById("placa").value;
+      const attendRating = document.getElementById("attend-rating").value;
+      const productRating = document.getElementById("product-rating").value;
+      const errorMessage = document.getElementById("error-message");
+
+      if (!placa || placa.length !== 8 || !attendRating || !productRating) {
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+        document.getElementById('survey-form').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+      }
+    }
+  </script>
 </body>
 </html>
