@@ -44,6 +44,7 @@
       font-size: 20px;
       color: #28355E;
       font-weight: bold;
+      font-family: sans-serif;
     }
 
     .stars {
@@ -51,12 +52,12 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      gap: 5px;
     }
 
     .star {
       width: 65px;
       height: 65px;
+      margin-right: 5px;
       transition: transform 0.2s;
     }
 
@@ -66,18 +67,19 @@
 
     .options {
       display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 20px;
     }
 
     .options label {
       font-size: 16px;
       color: #555;
+      margin: 0 10px;
     }
 
     .logo {
       display: block;
-      margin: 0 auto 15px auto;
+      margin: 0px auto 15px auto;
       max-width: 230px;
       height: auto;
     }
@@ -121,8 +123,7 @@
   <div class="survey-container">
     <img src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Logo_brasf.png" alt="Logo" class="logo">
     <h1>Pesquisa de Satisfação</h1>
-
-    <form id="survey-form" action="https://script.google.com/macros/s/AKfycbwkXFERfFxbvi8Igx92T9kGi-rFzPwte9cLqmDC4SUe9pvpKGKHTRFrWlLacKqhnN98/exec" method="POST">
+    <form id="survey-form">
       <div class="question">
         <p>PLACA</p>
         <input type="text" id="placa" name="placa" maxlength="8" placeholder="XXX-XXXX" required>
@@ -137,7 +138,7 @@
           <img class="star" data-value="4" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
           <img class="star" data-value="5" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
         </div>
-        <input type="hidden" name="attend" id="attend-rating" value="">
+        <input type="hidden" name="attend" id="attend-rating">
       </div>
 
       <div class="question">
@@ -149,25 +150,25 @@
           <img class="star" data-value="4" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
           <img class="star" data-value="5" src="https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/Star_white.png">
         </div>
-        <input type="hidden" name="workshop_quality" id="product-rating" value="">
+        <input type="hidden" name="workshop_quality" id="product-rating">
       </div>
 
       <div class="question">
         <p>Você recomendaria nossa empresa?</p>
         <div class="options">
-          <label><input type="radio" name="recommend" value="Sim"> Sim</label>
+          <label><input type="radio" name="recommend" value="Sim" required> Sim</label>
           <label><input type="radio" name="recommend" value="Não"> Não</label>
         </div>
       </div>
 
       <div class="question">
         <p>Comentários adicionais:</p>
-        <textarea name="comments" rows="4" style="width: 100%;"></textarea>
+        <textarea name="comments" id="comments" rows="4" style="width: 100%;"></textarea>
       </div>
 
-      <div class="error-message" id="error-message" style="display: none;">É necessário preencher a placa e as estrelas</div>
+      <div class="error-message" id="error-message" style="display: none;">É necessário preencher a placa e as opções de estrela.</div>
 
-      <button type="submit" class="submit-btn">Enviar</button>
+      <button type="button" class="submit-btn" onclick="submitSurvey()">Enviar</button>
     </form>
 
     <div class="result" id="result" style="display: none;">
@@ -183,16 +184,13 @@
     function setupStars(starElements, inputField) {
       starElements.forEach((star) => {
         const value = star.getAttribute("data-value");
-
         star.addEventListener("click", () => {
           inputField.value = value;
           updateStarImages(starElements, value);
         });
-
         star.addEventListener("mouseenter", () => {
           updateStarImages(starElements, value);
         });
-
         star.addEventListener("mouseleave", () => {
           updateStarImages(starElements, inputField.value);
         });
@@ -200,7 +198,7 @@
     }
 
     function updateStarImages(starElements, rating) {
-      starElements.forEach(star => {
+      starElements.forEach((star) => {
         const value = star.getAttribute("data-value");
         star.src = value <= rating ? goldStar : whiteStar;
       });
@@ -218,42 +216,38 @@
       }
     });
 
-    document.getElementById("survey-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const form = e.target;
-      const formData = new FormData(form);
-
-      const placa = formData.get("placa");
-      const attend = formData.get("attend");
-      const workshop = formData.get("workshop_quality");
-
+    function submitSurvey() {
+      const placa = document.getElementById("placa").value;
+      const attend = document.getElementById("attend-rating").value;
+      const workshop = document.getElementById("product-rating").value;
+      const recommend = document.querySelector('input[name="recommend"]:checked')?.value;
+      const comments = document.getElementById("comments").value;
       const errorMessage = document.getElementById("error-message");
 
-      if (!placa || placa.length !== 8 || !attend || !workshop) {
-        errorMessage.style.display = "block";
+      if (!placa || !attend || !workshop || !recommend) {
+        errorMessage.style.display = 'block';
         return;
-      } else {
-        errorMessage.style.display = "none";
       }
 
-      fetch(form.action, {
+      errorMessage.style.display = 'none';
+
+      fetch("https://script.google.com/macros/s/AKfycbwkXFERfFxbvi8Igx92T9kGi-rFzPwte9cLqmDC4SUe9pvpKGKHTRFrWlLacKqhnN98/exec", {
         method: "POST",
-        body: formData
-      })
-        .then(response => {
-          if (response.ok) {
-            form.style.display = "none";
-            document.getElementById("result").style.display = "block";
-          } else {
-            alert("Erro ao enviar. Tente novamente.");
-          }
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          placa,
+          attend,
+          workshop_quality: workshop,
+          recommend,
+          comments
         })
-        .catch(error => {
-          console.error("Erro:", error);
-          alert("Erro ao enviar o formulário.");
-        });
-    });
+      }).then(() => {
+        document.getElementById("survey-form").style.display = "none";
+        document.getElementById("result").style.display = "block";
+        window.scrollTo(0, 0);
+      });
+    }
 
     window.addEventListener('load', function () {
       window.scrollTo(0, 0);
