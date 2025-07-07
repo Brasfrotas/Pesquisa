@@ -31,12 +31,12 @@
 h1 {
     text-align: center;
     color: #333;
-    font-size: 36px; /* Aumente aqui */
+    font-size: 24px; /* Aumente aqui */
     font-weight: bold; /* Deixa em negrito, opcional */
 }
 
     .question {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       text-align: center;
     }
 
@@ -81,8 +81,9 @@ h1 {
     }
 .logo {
   display: block;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 0px auto;
   max-width: 200px;
+  height: auto;
 }
     .submit-btn {
       background-color: #28a745;
@@ -238,6 +239,9 @@ h1 {
         document.getElementById('result').style.display = 'block';
       }
     }
-  </script>
+  window.addEventListener('load', function () {
+    window.scrollTo(0, 0);
+  });
+</script>
 </body>
 </html>
