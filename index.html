@@ -69,18 +69,15 @@ h1 {
       display: flex;
       align-items: center;
       align-content: center;
-      margin-left: 40px;
       justify-content: center;
-      flex-wrap: wrap;
     }
 
     .options label {
-      display: flex;
+      display: center;
       align-items: center;
       font-size: 16px;
       color: #555;
       flex: 1 1 45%;
-      margin: 5px 0;
     }
 
     .submit-btn {
@@ -169,7 +166,7 @@ h1 {
         <textarea name="comments" rows="4" style="width: 100%;"></textarea>
       </div>
 
-      <div class="error-message" id="error-message" style="display: none;">Precisa preencher tudo</div>
+      <div class="error-message" id="error-message" style="display: none;">É necessaria preencher a placa e opções de estrela</div>
 
       <button type="button" class="submit-btn" id="submit-btn" onclick="submitSurvey()">Enviar</button>
     </form>
