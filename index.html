@@ -266,8 +266,9 @@ fetch(urlPlacas)
           comments
         })
       }).then(() => {
-        document.getElementById("survey-form").style.display = "none";
-        document.getElementById("result").style.display = "block";
+document.getElementById("error-message").style.color = "green";
+document.getElementById("error-message").textContent = "Enviando sua resposta...";
+document.getElementById("error-message").style.display = "block";
         window.scrollTo(0, 0);
       });
     }
