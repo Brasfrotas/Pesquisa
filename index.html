@@ -216,38 +216,15 @@
       }
     });
 
-    // Carregamento da base de placas válidas
-    const urlPlacas = "https://raw.githubusercontent.com/Brasfrotas/Pesquisa/refs/heads/main/placas.json";
-    let placasPermitidas = [];
-
-fetch(urlPlacas)
-  .then(response => response.json())
-  .then(data => {
-    placasPermitidas = Object.keys(data).map(placa =>
-      placa.toUpperCase().replace(/[^A-Z0-9]/g, "")
-    );
-    console.log("Placas carregadas:", placasPermitidas);
-  })
-  .catch(error => {
-    console.error("Erro ao carregar placas:", error);
-  });
-
     function submitSurvey() {
-      const placaDigitada = document.getElementById("placa").value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+      const placa = document.getElementById("placa").value;
       const attend = document.getElementById("attend-rating").value;
       const workshop = document.getElementById("product-rating").value;
       const recommend = document.querySelector('input[name="recommend"]:checked')?.value;
       const comments = document.getElementById("comments").value;
       const errorMessage = document.getElementById("error-message");
 
-      if (!placasPermitidas.includes(placaDigitada)) {
-        errorMessage.textContent = "Placa não autorizada. Verifique e tente novamente.";
-        errorMessage.style.display = 'block';
-        return;
-      }
-
-      if (!placaDigitada || !attend || !workshop || !recommend) {
-        errorMessage.textContent = "É necessário preencher todos os campos.";
+      if (!placa || !attend || !workshop || !recommend) {
         errorMessage.style.display = 'block';
         return;
       }
@@ -259,16 +236,15 @@ fetch(urlPlacas)
         mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          placa: placaDigitada,
+          placa,
           attend,
           workshop_quality: workshop,
           recommend,
           comments
         })
       }).then(() => {
-document.getElementById("error-message").style.color = "green";
-document.getElementById("error-message").textContent = "Enviando sua resposta...";
-document.getElementById("error-message").style.display = "block";
+        document.getElementById("survey-form").style.display = "none";
+        document.getElementById("result").style.display = "block";
         window.scrollTo(0, 0);
       });
     }
